@@ -1,9 +1,17 @@
-set(rtl ${CMAKE_SOURCE_DIR}/rtl)
+find_package(Catch2 3 REQUIRED CONFIG)
+find_package(nyu-util REQUIRED CONFIG)
 
-nyu_setup_test(
-  TEST_NAME ModuleTest
-  TOP_MODULE Module
-  CPP_SOURCES Module.cpp
-  CPP_LIBS Catch2::Catch2WithMain
-  SV_SOURCES ${rtl}/Module.sv
+add_executable(tests)
+target_sources(tests PRIVATE
+  Module.cpp
 )
+nyu_link_sv(tests PRIVATE module)
+nyu_target_verilate(tests
+  TOP_MODULES Module
+  ARGS COVERAGE
+)
+target_link_libraries(tests PRIVATE Catch2::Catch2WithMain nyu::covrecorder)
+target_compile_features(tests PRIVATE cxx_std_23)
+
+include(Catch)
+catch_discover_tests(tests)

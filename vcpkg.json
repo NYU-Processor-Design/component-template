@@ -7,6 +7,7 @@
   "license": "CC0-1.0",
   "dependencies": [
     "nyu-cmake",
+    "nyu-util",
     "catch2"
   ]
 }

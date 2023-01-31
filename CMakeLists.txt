@@ -23,12 +23,15 @@ add_custom_target(UpdateVcpkgBaseline
 project(project VERSION 1.1.0)
 
 find_package(nyu-cmake CONFIG REQUIRED)
-find_package(Catch2 3 CONFIG REQUIRED)
 
 add_library(module INTERFACE)
 
 add_subdirectory(rtl)
-add_subdirectory(dv)
+
+if(NYU_BUILD_TESTS)
+  enable_testing()
+  add_subdirectory(dv)
+endif()
 
 # include(CMakePackageConfigHelpers)
 # include(GNUInstallDirs)
