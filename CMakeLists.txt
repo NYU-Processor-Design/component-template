@@ -1,6 +1,8 @@
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.27)
 
-if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+option(NYU_FETCH_VCPKG "Fetch vcpkg if no toolchain is set" ON)
+
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE AND NYU_FETCH_VCPKG)
   include(FetchContent)
   FetchContent_Declare(
     vcpkg
@@ -16,9 +18,11 @@ if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   set(VCPKG_ROOT_DIR ${vcpkg_SOURCE_DIR} CACHE PATH "Vcpkg Root Directory")
 endif()
 
-add_custom_target(UpdateVcpkgBaseline
-  ${VCPKG_ROOT_DIR}/vcpkg x-update-baseline
-)
+if(DEFINED VCPKG_ROOT_DIR)
+  add_custom_target(UpdateVcpkgBaseline
+    ${VCPKG_ROOT_DIR}/vcpkg x-update-baseline
+  )
+endif()
 
 project(project VERSION 1.0.0)
 
