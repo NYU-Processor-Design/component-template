@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.27)
 
-include(cmake/BootStrapVcpkg.cmake)
+include(cmake/BootstrapVcpkg.cmake)
+
+project(project VERSION 1.0.0)
 
 option(NYU_SKIP_VCPKG "Do not fetch vcpkg" OFF)
 option(NYU_BUILD_TESTS "Generate tests" OFF)
@@ -18,8 +20,6 @@ if(NYU_GEN_COV)
 else()
   set(_cov_option)
 endif()
-
-project(project VERSION 1.0.0)
 
 find_package(nyu-cmake CONFIG REQUIRED)
 
